@@ -16,10 +16,18 @@ func AddUserRoutes(group *gin.RouterGroup, db *gorm.DB) {
 }
 
 func AddUser(db *gorm.DB) func(c *gin.Context) {
+	type AddUserResult struct {
+		Username string `json:"username"`
+	}
+
 	return func(c *gin.Context) {
 		username := uuid.GenUuidv4()
 		db.Create(&_db.User{
 			Name: username,
+		})
+
+		c.JSON(200, &AddUserResult{
+			Username: username,
 		})
 	}
 }
