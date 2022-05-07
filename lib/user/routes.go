@@ -1,7 +1,9 @@
 package user
 
 import (
-	"net/http"
+	"github.com/impsus/user/lib/uuid"
+
+	_db "github.com/impsus/user/lib/db/models"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -13,16 +15,12 @@ func AddUserRoutes(group *gin.RouterGroup, db *gorm.DB) {
 	group.DELETE("/user/:id", DeleteUser(db))
 }
 
-type AddUserBody struct {
-	Name string `json:"name"`
-}
-
 func AddUser(db *gorm.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		user := AddUserBody{}
-		if err := c.BindJSON(&user); err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-		}
+		username := uuid.GenUuidv4()
+		db.Create(&_db.User{
+			Name: username,
+		})
 	}
 }
 

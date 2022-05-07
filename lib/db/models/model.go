@@ -4,11 +4,11 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	name string
-	keys []ApiKey
+	Name string
+	Keys []ApiKey
 }
 
 type ApiKey struct {
-	description string
-	key         string
+	Description string
+	Key         string
 }
